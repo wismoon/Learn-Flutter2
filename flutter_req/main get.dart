@@ -49,6 +49,7 @@ class _HomepageState extends State<Homepage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          //childern untuk manampung data dari database
           children: [
             Text(
               "ID = ${id}",
@@ -70,12 +71,17 @@ class _HomepageState extends State<Homepage> {
             ),
             SizedBox(height: 15,),
             ElevatedButton(
+              //button untuk get request untuk mengambil data dari database
               onPressed: () async {
+                // mengunakan async await untuk untung get data 
+                //membuat variabel penampung "response" untuk mendapatkan data dari database
                 var response = await http.get(Uri.parse("https://reqres.in/api/users/2"));
                 if (response.statusCode == 200) {
                   //data berhasil diambil
                   print("berhasil get data");
+                  //membuat variabel penampung data dari get response dan di decode agar berubahnya menjadi data json
                   var data = json.decode(response.body);
+                  //setstate dengan data json lalu mengambil data berdasar dari variabel pada database
                   setState(() {
                     id = data["data"]["id"].toString();
                     email = data["data"]["email"].toString();

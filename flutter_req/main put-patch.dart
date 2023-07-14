@@ -60,6 +60,7 @@ class _HomepageState extends State<Homepage> {
           SizedBox(height: 20),
           ElevatedButton(
               onPressed: () async {
+                //mengunakana http.parse/put untuk merubah data yang kita ingin ubah
                 var response = await http.put(Uri.parse("https://reqres.in/api/users/2"),
                     body: {"name": nameC.text, "job": jobC.text});
 

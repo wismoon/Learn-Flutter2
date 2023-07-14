@@ -27,9 +27,13 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage> {
 
+
+  // text editing controller untuk membuat tipe apa text editing yang mau kita buat
   TextEditingController nameC = TextEditingController();
   TextEditingController jobC = TextEditingController();
 
+
+  //membuat variabel string untuk menampung data sebelum di generate
   String hasilresponse = "belom ada data";
 
   @override
@@ -42,6 +46,7 @@ class _HomepageState extends State<Homepage> {
         padding: EdgeInsets.all(20),
         children: [
           TextField(
+            //memanggil text controller langsung untuk memberi banyak fitur 
             controller: nameC,
             autocorrect: false,
             keyboardType: TextInputType.text,
@@ -58,12 +63,15 @@ class _HomepageState extends State<Homepage> {
           ),
           SizedBox(height: 20),
           ElevatedButton(
+              // post request ke database untuk merubah data yang kita mau 
               onPressed: () async {
                 var response = await http.post(Uri.parse("https://reqres.in/api/users"),
+                    //menentukan data yang kita ubah dari text controler 
                     body: {"name": nameC.text, "job": jobC.text});
-
+                    //maping untuk isi dari data yang diterima dan diubah menjadi json 
                     Map <String, dynamic> data = json.decode(response.body) as Map <String, dynamic> ;
                     
+                    //setstate hasilrespon dengan isian dari data yang kita ubah
                     setState(() {
                       hasilresponse = "${data["name"]} - ${data["job"]}";
                     });

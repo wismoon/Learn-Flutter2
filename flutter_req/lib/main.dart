@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_req/main.dart';
+import 'package:flutter_req/Models/Users.dart';
 import 'package:http/http.dart' as http;
 
 void main(List<String> args) {
@@ -28,15 +28,22 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage> {
 
-  List<Map <String, dynamic>> allUsers = [];
+  //membuat list dengan isi model yang telah dibuat 
+  List<UserModel> allUsers = [];
 
+
+  //future fungsi dimana untuk mendapatkan data dan mengulang per data yang kita inginkan
   Future getAllUsers() async{
+    //membuat try catch untuk menampung error 
     try {
-      var response = await http.get(Uri.parse("https://reqres.in/api/users"));
+      var response = await http.get(Uri.parse("https://reqres.in/api/users?=page1"));
+      // mengisi list data dengan hasil json dari respon
       List data = (json.decode(response.body) as Map <String, dynamic>)['data'];
 
+      //for each data yang telah di decode sebanyak semua data
       data.forEach((element) {
-        allUsers.add(element);
+        allUsers.add(UserModel.fromJson(element));
+        
       });
       
       print(allUsers);
@@ -52,6 +59,8 @@ class _HomepageState extends State<Homepage> {
       appBar: AppBar(
         title: Text("future builder"),
       ),
+
+      //menggunakan future builder agar bisa menggunakan future fungsi
       body: FutureBuilder(
         future: getAllUsers(),
         builder: (context, snapshot) {
@@ -63,10 +72,10 @@ class _HomepageState extends State<Homepage> {
             itemBuilder: (context, index) => ListTile(
               leading: CircleAvatar(
                 backgroundColor: Colors.green[300],
-                backgroundImage: NetworkImage(allUsers[index]['avatar']),
+                backgroundImage: NetworkImage(allUsers[index].avatar),
               ),
-              title: Text("${allUsers[index]['first_name']} ${allUsers[index]['last_name']}"),
-              subtitle: Text("${allUsers[index]['email']}"),
+              title: Text("${allUsers[index].firstName} ${allUsers[index].lastName}"),
+              subtitle: Text("${allUsers[index].email}"),
             ),
           );}
         }

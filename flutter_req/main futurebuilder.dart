@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_req/main.dart';
 import 'package:http/http.dart' as http;
 
 void main(List<String> args) {
