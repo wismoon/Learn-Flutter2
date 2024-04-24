@@ -6,21 +6,22 @@ import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-  double widthDevice =   MediaQuery.of(context).size.width;
-  double heightDevice =   MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         title: const Text('HomeView'),
         centerTitle: true,
+        actions: [
+          IconButton(onPressed: () => controller.logout(), icon: Icon(Icons.logout))
+        ],
       ),
-      body: Container(
-        width: widthDevice * 0.5,
-        height: heightDevice,
-        color: Colors.red,
-      )
+      body: const Center(
+        child: Text(
+          'HomeView',
+          style: TextStyle(fontSize: 20),
+        ),
+      ),
     );
   }
 }
