@@ -18,6 +18,16 @@ class RegisterView extends GetView<RegisterController> {
         children: [
           TextField(
             autocorrect: false,
+            controller: controller.nameC,
+            textInputAction: TextInputAction.next,
+            decoration: InputDecoration(
+                labelText: "Name", border: OutlineInputBorder()),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          TextField(
+            autocorrect: false,
             controller: controller.emailC,
             textInputAction: TextInputAction.next,
             decoration: InputDecoration(

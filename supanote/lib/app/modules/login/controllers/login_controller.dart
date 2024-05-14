@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -14,14 +13,14 @@ class LoginController extends GetxController {
 
   SupabaseClient client = Supabase.instance.client;
 
-  void login() async{
+  Future<bool?> login() async{
     if (emailC.text.isNotEmpty && passC.text.isNotEmpty) {
       isLoading.value = true;
       AuthResponse res = await client.auth.signInWithPassword(email: emailC.text, password: passC.text);
       isLoading.value = false;
 
       if (res.user != null) {
-        Get.offAllNamed(Routes.HOME);
+        return true;
       } else {
         Get.snackbar("Terjadi Kesalahan", "error");
       }

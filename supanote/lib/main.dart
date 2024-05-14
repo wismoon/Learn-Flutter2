@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:supanote/app/controllers/auth_controller.dart';
 
 import 'app/routes/app_pages.dart';
 
@@ -20,6 +21,8 @@ void main() async {
   print("---------------------------------");
   print(supabase.client.auth.currentSession?.toJson());
 
+
+  final authC = Get.put(AuthController(), permanent: true);
 
   runApp(
     GetMaterialApp(

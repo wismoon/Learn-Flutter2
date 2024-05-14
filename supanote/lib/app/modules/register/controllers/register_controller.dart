@@ -8,13 +8,14 @@ class RegisterController extends GetxController {
   RxBool isLoading = false.obs;
   RxBool isHidden = false.obs;
 
+  TextEditingController nameC = TextEditingController(text: "wisnu Tes");
   TextEditingController emailC = TextEditingController(text: "wisnu@gmail.com");
   TextEditingController passC = TextEditingController(text: "password");
 
   SupabaseClient client = Supabase.instance.client;
 
   void signup() async {
-    if (emailC.text.isNotEmpty && passC.text.isNotEmpty) {
+    if (nameC.text.isNotEmpty && emailC.text.isNotEmpty && passC.text.isNotEmpty) {
       isLoading.value = true;
       AuthResponse res = await client.auth.signUp(
         email: emailC.text, 
@@ -23,7 +24,15 @@ class RegisterController extends GetxController {
       isLoading.value = false;
 
       if (res.user != null) {
-        Get.back();
+        //insert data user -> table "users"
+        await client.from("users").insert({
+          "email": emailC.text,
+          "name": nameC.text,
+          "created_at": DateTime.now().toIso8601String(),
+          "uid": res.user!.id
+        });
+
+        Get.offAllNamed(Routes.HOME);
       } else {
         Get.snackbar("Terjadi Kesalahan", "error");
       }

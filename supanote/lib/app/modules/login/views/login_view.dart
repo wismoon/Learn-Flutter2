@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:supanote/app/controllers/auth_controller.dart';
 import 'package:supanote/app/routes/app_pages.dart';
 
 import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
-  const LoginView({Key? key}) : super(key: key);
+  LoginView({Key? key}) : super(key: key);
+
+  final authC = Get.find<AuthController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,9 +50,13 @@ class LoginView extends GetView<LoginController> {
           ),
           Obx(
             () => ElevatedButton(
-              onPressed: () {
+              onPressed: () async{
                 if (controller.isLoading.isFalse) {
-                  controller.login();
+                  bool? cek = await controller.login();
+                  if (cek != null && cek == true) {
+                    await authC.authLogout();
+                    Get.offAllNamed(Routes.HOME);
+                  }
                 }
               }, 
               child: Text(controller.isLoading.isFalse ? "Login" : "Loading"))
